@@ -34,7 +34,7 @@ class FormatsRelationManager extends FilamentRelationManager
                     $component = Forms\Components\TextInput::make($field->id)
                         ->label(ucfirst($field->name))
                         ->required($field->required)
-                        ->default($field->default_value);
+                        ->default('Hello World');
                     break;
                     // Add other cases for different types
                 default:
@@ -74,6 +74,16 @@ class FormatsRelationManager extends FilamentRelationManager
                         $brandFormat->save();
 
                         return $record;
+                    })->mutateRecordDataUsing(function (array $data): array {
+                        $brandFormat = BrandFormat::whereBrandId($data['brand_id'])->whereFormatId($data['format_id'])->first();
+
+                        $brandFormatFields = json_decode($brandFormat->fields, true);
+
+                        foreach ($brandFormatFields as $key => $value) {
+                            $data[$key] = $value;
+                        }
+
+                        return $data;
                     }),
                 Tables\Actions\DeleteAction::make(),
             ])
