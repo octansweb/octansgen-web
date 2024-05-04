@@ -62,14 +62,6 @@ class BrandResource extends Resource
             ]);
     }
 
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['user_id'] = auth()->id();
-
-        return $data;
-    }
-
-
     public static function table(Table $table): Table
     {
         return $table
@@ -84,6 +76,9 @@ class BrandResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+            ->modifyQueryUsing(function (Builder $query) { 
+                return $query->whereUserId(auth()->id());
+            }) 
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
