@@ -66,6 +66,7 @@ class FormatsRelationManager extends FilamentRelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
+                    ->label('Customize')
                     ->using(function (Model $record, array $data): Model {
                         $brandFormat = BrandFormat::whereBrandId($record->brand_id)->whereFormatId($record->format_id)->first();
 
