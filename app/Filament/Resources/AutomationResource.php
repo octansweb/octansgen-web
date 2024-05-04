@@ -26,9 +26,20 @@ class AutomationResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('schedule')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('schedule')
+                    ->options([
+                        'hourly' => 'Hourly',
+                        'daily' => 'Daily',
+                        'weekly' => 'Weekly',
+                        'monthly' => 'Monthly',
+                    ]),
+                Forms\Components\Select::make('amount')
+                    ->options([
+                        '5' => '5',
+                        '10' => '10',
+                        '15' => '15',
+                        '20' => '20',
+                    ]),
 
                 Forms\Components\Select::make('brand_id')
                     ->relationship('brand', 'name'),
@@ -49,9 +60,6 @@ class AutomationResource extends Resource
                 Tables\Columns\TextColumn::make('brand.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('format.name')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('schedule'); // options could be 'hourly', 'daily', 'weekly', 'monthly', 'yearly'
+            $table->unsignedInteger('amount'); // total amount of posts per schedule
             $table->foreignId('brand_id');
             $table->foreignId('format_id');
             $table->foreignId('user_id');
