@@ -79,6 +79,10 @@ class FormatsRelationManager extends FilamentRelationManager
 
                         $brandFormatFields = json_decode($brandFormat->fields, true);
 
+                        if (!$brandFormatFields) {
+                            $brandFormatFields = [];
+                        }
+
                         foreach ($brandFormatFields as $key => $value) {
                             $data[$key] = $value;
                         }
