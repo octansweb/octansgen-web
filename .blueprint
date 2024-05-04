@@ -1,0 +1,23 @@
+created:
+    - database/factories/BrandFactory.php
+    - database/factories/FormatFactory.php
+    - database/factories/BrandFormatFactory.php
+    - database/factories/FormatFieldFactory.php
+    - database/factories/VideoFactory.php
+    - database/migrations/2024_05_03_223900_create_brands_table.php
+    - database/migrations/2024_05_03_223901_create_formats_table.php
+    - database/migrations/2024_05_03_223902_create_brand_formats_table.php
+    - database/migrations/2024_05_03_223903_create_format_fields_table.php
+    - database/migrations/2024_05_03_223904_create_videos_table.php
+    - app/Models/Brand.php
+    - app/Models/Format.php
+    - app/Models/BrandFormat.php
+    - app/Models/FormatField.php
+    - app/Models/Video.php
+    - database/seeders/1Seeder.php
+models:
+    Brand: { id: id, name: string, description: text, logo: string, user_id: 'id:user', timestamps: timestamps, relationships: { belongsTo: User } }
+    Format: { id: id, name: string, description: text, timestamps: timestamps, relationships: { hasMany: BrandFormat } }
+    BrandFormat: { id: id, brand_id: 'id:brand', format_id: 'id:format', timestamps: timestamps, relationships: { belongsTo: 'Brand Format' } }
+    FormatField: { id: id, format_id: 'id:format', name: string, type: string, required: boolean, default_value: 'string nullable', timestamps: timestamps, relationships: { belongsTo: Format } }
+    Video: { id: id, brand_id: 'id:brand', format_id: 'id:format', file_path: string, metadata: 'json nullable', timestamps: timestamps, relationships: { belongsTo: 'Brand Format' } }

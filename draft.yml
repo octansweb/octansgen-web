@@ -1,0 +1,53 @@
+models:
+  Brand:
+    id: id
+    name: string
+    description: text
+    logo: string
+    user_id: id:user
+    timestamps: true
+    relationships:
+      belongsTo: User
+
+  Format:
+    id: id
+    name: string
+    description: text
+    timestamps: true
+    relationships:
+      hasMany: BrandFormat
+
+  BrandFormat:
+    id: id
+    brand_id: id:brand
+    format_id: id:format
+    timestamps: true
+    relationships:
+      belongsTo:
+        - Brand
+        - Format
+
+  FormatField:
+    id: id
+    format_id: id:format
+    name: string
+    type: string
+    required: boolean
+    default_value: string nullable
+    timestamps: true
+    relationships:
+      belongsTo: Format
+
+  Video:
+    id: id
+    brand_id: id:brand
+    format_id: id:format
+    file_path: string
+    metadata: json nullable
+    timestamps: true
+    relationships:
+      belongsTo:
+        - Brand
+        - Format
+
+
