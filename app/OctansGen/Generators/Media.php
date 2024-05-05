@@ -125,5 +125,25 @@ class Media
     
         return $wrappedText;
     }    
+ 
+    public static function addAudioToVideo($inputVideoPath, $audioTrackPath, $outputDir)
+    {
+        // Generate a unique filename for the output video
+        $outputVideoPath = $outputDir . '/' . uniqid('merged_video_', true) . '.mp4';
     
+        // Construct the FFmpeg command using the specific structure provided
+        $command = [
+            'ffmpeg',
+            '-i', $inputVideoPath,  // Input video file
+            '-i', $audioTrackPath,  // Input audio file
+            '-c', 'copy',           // Copy all codecs without re-encoding
+            '-map', '0:v:0',        // Map the video stream from the first input (video)
+            '-map', '1:a:0',        // Map the audio stream from the second input (audio)
+            '-shortest',            // Ensures the output duration matches the shortest of the video or audio streams
+            $outputVideoPath
+        ];
+    
+        return self::runProcess($command, $outputVideoPath);
+    }
+
 }
