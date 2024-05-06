@@ -15,7 +15,7 @@ class Media
      * @param string $outputDir The directory to save the cropped image.
      * @return string|void Returns the generated output file path or prints an error.
      */
-    public static function cropImage($inputFile, $outputDir)
+    public function cropImage($inputFile, $outputDir)
     {
         // Generate a unique filename
         $outputFile = $outputDir . '/' . uniqid('cropped_', true) . '.jpeg';
@@ -31,6 +31,24 @@ class Media
         return self::runProcess($command, $outputFile);
     }
 
+
+    public function scaleAndCropImage($inputFile, $outputDir)
+    {
+        $outputFile = $outputDir . '/' . uniqid('scaled_cropped_', true) . '.jpeg';
+    
+        $command = [
+            'ffmpeg',
+            '-i', $inputFile,
+            '-vf', 'scale=-1:1920, crop=1080:1920',
+            '-frames:v', '1',
+            $outputFile
+        ];
+    
+        return self::runProcess($command, $outputFile);
+    }
+    
+    
+
     /**
      * Run the ffmpeg process command.
      *
@@ -38,7 +56,7 @@ class Media
      * @param string $outputFile The output file path.
      * @return string|void Returns the output file path or prints an error.
      */
-    private static function runProcess($command, $outputFile)
+    private function runProcess($command, $outputFile)
     {
         $process = new Process($command);
         $process->setTimeout(3600);  // Set a timeout (in seconds)
@@ -59,7 +77,7 @@ class Media
      * @param string $outputDir The directory to save the output video file.
      * @return string|void Returns the generated output video file path or prints an error.
      */
-    public static function createVideoFromImage($imagePath, $duration, $outputDir)
+    public function createVideoFromImage($imagePath, $duration, $outputDir)
     {
         // Generate a unique filename
         $outputVideoPath = $outputDir . '/' . uniqid('video_', true) . '.mp4';
@@ -80,7 +98,7 @@ class Media
     }
 
 
-    public static function addTextToVideo($inputVideoPath, $text, $outputDir)
+    public function addTextToVideo($inputVideoPath, $text, $outputDir)
     {
         // Generate a unique filename for the output video
         $outputVideoPath = $outputDir . '/' . uniqid('text_video_', true) . '.mp4';
@@ -91,7 +109,7 @@ class Media
         // Properly escape the text for shell execution and FFmpeg
         $escapedText = escapeshellarg($wrappedText);
 
-        $fontSize = 40;
+        $fontSize = 50;
     
         $command = [
             'ffmpeg',
@@ -109,7 +127,7 @@ class Media
         return self::runProcess($command, $outputVideoPath);
     }
     
-    private static function wrapText($text, $maxLineLength) {
+    private function wrapText($text, $maxLineLength) {
         $words = explode(' ', $text);
         $wrappedText = '';
         $currentLineLength = 0;
@@ -126,7 +144,7 @@ class Media
         return $wrappedText;
     }    
  
-    public static function addAudioToVideo($inputVideoPath, $audioTrackPath, $outputDir)
+    public function addAudioToVideo($inputVideoPath, $audioTrackPath, $outputDir)
     {
         // Generate a unique filename for the output video
         $outputVideoPath = $outputDir . '/' . uniqid('merged_video_', true) . '.mp4';
