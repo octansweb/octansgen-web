@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('videos', function (Blueprint $table) {
+        Schema::create('ai_interactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('brand_id');
-            $table->foreignId('format_id');
-            $table->foreignId('user_id');
-            $table->string('file_path');
-            $table->text('instagram_post_description')->nullable();
-            $table->text('youtube_description')->nullable();
+            $table->foreignId('automation_id');
+            $table->text('prompt');
+            $table->text('response');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('videos');
+        Schema::dropIfExists('ai_interactions');
     }
 };

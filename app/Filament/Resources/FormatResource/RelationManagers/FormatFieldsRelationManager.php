@@ -28,6 +28,7 @@ class FormatFieldsRelationManager extends RelationManager
                 Forms\Components\Select::make('type')
                     ->options([
                         'string' => 'String',
+                        'text' => 'Text',
                     ])
                     ->required(),
                 Forms\Components\Toggle::make('required')

@@ -18,6 +18,7 @@ class Video extends Model
     protected $fillable = [
         'brand_id',
         'format_id',
+        'user_id',
         'file_path',
         'metadata',
         'brand_format_id',

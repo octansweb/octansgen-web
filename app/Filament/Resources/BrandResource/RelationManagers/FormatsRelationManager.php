@@ -29,17 +29,33 @@ class FormatsRelationManager extends FilamentRelationManager
 
         // Iterate over each field and create a corresponding form component
         foreach ($fieldsForThisFormat as $field) {
-            switch ($field->type) {
-                case 'string':
-                    $component = Forms\Components\TextInput::make($field->id)
-                        ->label(ucfirst($field->name))
-                        ->required($field->required)
-                        ->default('Hello World');
-                    break;
-                    // Add other cases for different types
-                default:
-                    $component = null;
+
+            if ($field->type === 'string') {
+                $component = Forms\Components\TextInput::make($field->id);
             }
+            if ($field->type === 'text') {
+                $component = Forms\Components\MarkdownEditor::make($field->id)
+                ->toolbarButtons([
+                    'blockquote',
+                    'bold',
+                    'bulletList',
+                    'codeBlock',
+                    'heading',
+                    'italic',
+                    'orderedList',
+                    'strike',
+                    'table',
+                    'undo',
+                ]);
+            }
+
+            $component->label(ucfirst($field->name));
+
+            if ($field->required) {
+                $component->required();
+            }
+
+            $component->columnSpanFull();
 
             if ($component) {
                 $formComponents[] = $component;

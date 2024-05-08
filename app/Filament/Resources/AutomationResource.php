@@ -27,6 +27,7 @@ class AutomationResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('schedule')
+                    ->required()
                     ->options([
                         'hourly' => 'Hourly',
                         'daily' => 'Daily',
@@ -34,6 +35,7 @@ class AutomationResource extends Resource
                         'monthly' => 'Monthly',
                     ]),
                 Forms\Components\Select::make('amount')
+                    ->required()
                     ->options([
                         '5' => '5',
                         '10' => '10',
@@ -42,9 +44,11 @@ class AutomationResource extends Resource
                     ]),
 
                 Forms\Components\Select::make('brand_id')
+                    ->required()
                     ->relationship('brand', 'name'),
 
                 Forms\Components\Select::make('format_id')
+                    ->required()
                     ->relationship('format', 'name'),
             ]);
     }

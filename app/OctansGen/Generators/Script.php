@@ -7,7 +7,7 @@ use App\Models\AIInteraction;
 use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Facades\Log;
 
-class Quote
+class Script
 {
     public function generate($prompt, Automation $automation = null)
     {
@@ -31,7 +31,7 @@ class Quote
 
         // Build messages array with past interactions
         $messages = [
-            ['role' => 'system', 'content' => "You are a function that takes in a specific prompt and outputs a unique quote less than 60 characters, in exactly a particular format (i.e., “<quote-body>” then two line breaks and then long hyphen space author name)."]
+            ['role' => 'system', 'content' => "You are a function that takes in a specific prompt and outputs an instagram reel video script no more than 125 words. You are to only include the words and no visual directives, headings or anything like."]
         ];
 
         foreach ($lastInteractions as $interaction) {
@@ -56,6 +56,10 @@ class Quote
 
     protected function logInteraction($prompt, $response, Automation $automation = null)
     {
+        if (!$automation) {
+            return;
+        }
+
         AIInteraction::create([
             'automation_id' => $automation ? $automation->id : null,
             'prompt'        => $prompt,
