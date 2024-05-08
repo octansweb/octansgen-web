@@ -36,6 +36,31 @@ class ImagesWithScript
 
         $script = $this->scriptGenerator->generate($prompt);
 
-        dd($script);
+
+        $imagePrompt = "Create an image that symbolizes the journey of individuation, depicting the integration of the conscious and unconscious aspects of the psyche. Let the image reflect the idea of uncovering one's true self amidst the complexities of the human mind, drawing inspiration from Jung's concepts of archetypes, the shadow, and the anima/animus.";
+
+        $imagePrompt2 = "Generate an image that embodies the transformative power of the collective unconscious, capturing the interconnectedness of all beings through universal symbols and archetypes. Let the image evoke a sense of mystery and depth, inviting viewers to explore the hidden realms of the psyche and contemplate their place within the greater tapestry of existence.";
+
+        $imagePrompt3 = "Produce an image that serves as a visual metaphor for the process of psychological integration, portraying the journey towards self-realization and wholeness. Consider incorporating symbols of growth, renewal, and inner conflict, drawing from Jung's theories of the psyche's inherent drive towards completeness and harmony.";
+
+        $image1 = $this->imageGenerator->generate($imagePrompt);
+        $image2 = $this->imageGenerator->generate($imagePrompt);
+        $image3 = $this->imageGenerator->generate($imagePrompt);
+
+        // Resize them:
+        $image1 = $this->mediaGenerator->scaleAndCropImage($image1, storage_path('app/public'));
+        $image2 = $this->mediaGenerator->scaleAndCropImage($image2, storage_path('app/public'));
+        $image3 = $this->mediaGenerator->scaleAndCropImage($image3, storage_path('app/public'));
+
+        // Make the video
+        $video = $this->mediaGenerator->createVideoFromImages([$image1, $image2, $image3], storage_path('app/public'));
+
+        echo "Generated video: $video\n";
+
+        $resizedVideo = $this->mediaGenerator->resizeVideoAspectRatio($video, storage_path('app/public'));
+
+        echo "Generated cropped video: $resizedVideo\n";
+
+        return $resizedVideo;
     }
 }

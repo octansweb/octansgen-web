@@ -218,12 +218,12 @@ class Media
     {
         // Generate a unique filename
         $outputVideoPath = $outputDir . '/' . uniqid('video_', true) . '.mp4';
-    
+
         // Base part of the command
         $command = [
             'ffmpeg'
         ];
-    
+
         // Dynamic generation of input and filter settings based on images
         $inputParts = [];
         $filterParts = [];
@@ -234,7 +234,7 @@ class Media
             $command[] = '3'; // duration for each image
             $command[] = '-i';
             $command[] = $path;
-    
+
             $filter = sprintf(
                 "[%d:v]scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=25[v%d]",
                 $index,
@@ -242,17 +242,17 @@ class Media
             );
             $filterParts[] = $filter;
         }
-    
+
         // Concatenation part of the command
-        $concatInput = implode('', array_map(function($index) {
+        $concatInput = implode('', array_map(function ($index) {
             return "[v$index]";
         }, range(0, count($imagePaths) - 1)));
-    
+
         $filterComplex = implode(";", $filterParts) . ';' . $concatInput . 'concat=n=' . count($imagePaths) . ':v=1:a=0';
-    
+
         $command[] = '-filter_complex';
         $command[] = $filterComplex;
-    
+
         $command[] = '-c:v';
         $command[] = 'libx264';
         $command[] = '-pix_fmt';
@@ -260,8 +260,36 @@ class Media
         $command[] = '-movflags';
         $command[] = '+faststart';
         $command[] = $outputVideoPath;
-    
+
         return self::runProcess($command, $outputVideoPath);
     }
-     
+
+
+    /**
+     * Resize a video to a 1080x1920 aspect ratio.
+     *
+     * @param string $inputVideoPath The path to the input video file.
+     * @param string $outputDir The directory to save the resized video file.
+     * @return string|void Returns the path of the resized video or prints an error.
+     */
+    public function resizeVideoAspectRatio($inputVideoPath, $outputDir)
+    {
+        // Generate a unique filename for the output video
+        $outputVideoPath = $outputDir . '/' . uniqid('resized_video_', true) . '.mp4';
+
+        // Construct the FFmpeg command to resize the video
+        $command = [
+            'ffmpeg',
+            '-i', $inputVideoPath,
+            '-vf', 'scale=-2:1920,crop=1080:1920',
+            '-c:v', 'libx264',
+            '-crf', '20',
+            '-preset', 'fast',
+            '-pix_fmt', 'yuv420p',
+            '-movflags', '+faststart',
+            $outputVideoPath
+        ];
+
+        return self::runProcess($command, $outputVideoPath);
+    }
 }

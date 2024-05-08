@@ -90,7 +90,7 @@ class SingleQuote
         // Add music to the video
         $finalVideo = $this->mediaGenerator->addAudioToVideo($videoWithImageAndText, app_path() . '/OctansGen/Assets/music.mp3', storage_path('app/public'));
 
-        print_r($finalVideo);
+        echo "Final video path: $finalVideo\n";
 
         // Return the final video path
         return $finalVideo;
