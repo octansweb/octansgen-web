@@ -409,7 +409,7 @@ class Media
      * @param float $backgroundVolume Volume adjustment for the background audio (0.0 to 1.0).
      * @return string|void Returns the path of the output video or prints an error.
      */
-    public function addBackgroundMusic($inputVideoPath, $backgroundAudioPath, $outputDir, $backgroundVolume = 0.2)
+    public function addBackgroundMusic($inputVideoPath, $backgroundAudioPath, $outputDir, $backgroundVolume = 0.1)
     {
         // Generate a unique filename for the output video
         $outputVideoPath = $outputDir . '/' . uniqid('bgm_video_', true) . '.mp4';

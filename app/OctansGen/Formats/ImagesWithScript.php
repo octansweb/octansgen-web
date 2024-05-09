@@ -10,6 +10,7 @@ use App\OctansGen\Generators\Audio;
 use App\OctansGen\Generators\Image;
 use App\OctansGen\Generators\Media;
 use App\OctansGen\Generators\Script;
+use Illuminate\Support\Facades\Cache;
 use App\OctansGen\Generators\Subtitles;
 
 
@@ -85,8 +86,34 @@ class ImagesWithScript
 
         $finalVideo = $this->mediaGenerator->addLogoToVideo($finalVideo, $logoPath, storage_path('app/public'));
 
+        $automationId = $options['automation_id'];
+        $musicList = [
+            app_path('OctansGen/Assets/Music/Calming/1.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/2.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/3.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/4.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/5.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/6.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/7.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/8.mp3'),
+            // app_path('OctansGen/Assets/Music/Calming/9.mp3'), // too loud
+            app_path('OctansGen/Assets/Music/Calming/10.mp3'),
+            app_path('OctansGen/Assets/Music/Calming/11.mp3'),
+        ];
+
+        // Retrieve the current music index from the cache, default to 0 if not set
+        $currentIndex = Cache::get('music_index_automation_' . $automationId, 0);
+
+        echo "Current music index: $currentIndex\n";
+
         // Add a background music
-        $finalVideo = $this->mediaGenerator->addBackgroundMusic($finalVideo, app_path() . '/OctansGen/Assets/music.mp3', storage_path('app/public'));
+        $finalVideo = $this->mediaGenerator->addBackgroundMusic($finalVideo, $musicList[$currentIndex], storage_path('app/public'));
+
+        // Increment and cycle the music index
+        $nextIndex = ($currentIndex + 1) % count($musicList);
+
+        // Store the incremented index back to the cache
+        Cache::put('music_index_automation_' . $automationId, $nextIndex, now()->addDays(1)); // Cache for 1 day or suitable duration
 
         echo "Generated cropped video: $finalVideo\n";
 
