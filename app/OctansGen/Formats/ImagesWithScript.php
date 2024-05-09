@@ -3,6 +3,7 @@
 
 namespace App\OctansGen\Formats;
 
+use App\Models\Brand;
 use App\Models\BrandFormat;
 use App\Models\FormatField;
 use App\OctansGen\Generators\Audio;
@@ -31,6 +32,9 @@ class ImagesWithScript
 
     public function generate($options = [])
     {
+        $brand = Brand::find($options['brand_id']);
+        $logoPath = storage_path('app/public/' . $brand->logo);
+
         $brandFormat = BrandFormat::where('brand_id', $options['brand_id'])
             ->where('format_id', $options['format_id'])
             ->first();
@@ -77,6 +81,9 @@ class ImagesWithScript
         $resizedVideo = $this->mediaGenerator->resizeVideoAspectRatio($video, storage_path('app/public'));
         $finalVideo = $this->mediaGenerator->addAudioToVideo($resizedVideo, $audioFile, storage_path('app/public'));
         $finalVideo = $this->mediaGenerator->burnSubtitlesInVideo($finalVideo, $subtitlesFile, storage_path('app/public'));
+
+
+        $finalVideo = $this->mediaGenerator->addLogoToVideo($finalVideo, $logoPath, storage_path('app/public'));
 
         echo "Generated cropped video: $finalVideo\n";
 

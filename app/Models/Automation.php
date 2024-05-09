@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Video;
+use App\OctansGen\Formats\ImagesWithScript;
 use App\OctansGen\Formats\SingleQuote;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -26,16 +27,28 @@ class Automation extends Model
 
     public function execute()
     {
+        $automationFormat = Format::find($this->format_id);
+
         $files = [];
         foreach (range(1, $this->amount) as $i) {
-            if (Format::find($this->format_id)->name === 'Single Quote') {
+            if ($automationFormat->name === 'Single Quote') {
 
                 $generated = app(SingleQuote::class)->generate([
                     'brand_id' => $this->brand_id,
                     'format_id' => $this->format_id,
                     'automation_id' => $this->id,
                 ]);
+            }
 
+            if ($automationFormat->name === 'Images With Script') {
+                $generated = app(ImagesWithScript::class)->generate([
+                    'brand_id' => $this->brand_id,
+                    'format_id' => $this->format_id,
+                    'automation_id' => $this->id,
+                ]);
+            }
+
+            if ($generated) {
                 // Assuming $generated is a full path, convert it to a relative path from public path
                 $relativePath = str_replace(storage_path('app/public') . '/', '', $generated);
 

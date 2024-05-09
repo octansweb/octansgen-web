@@ -306,25 +306,25 @@ class Media
     {
         // Generate a unique filename for the output video
         $outputVideoPath = $outputDir . '/' . uniqid('subtitled_video_', true) . '.mp4';
-    
+
         // Construct the FFmpeg command to burn subtitles into the video
         $command = [
             'ffmpeg',
             '-i', $inputVideoPath,
             '-vf', "subtitles=" . escapeshellarg($subtitlesPath) .
                 //    ":fontsdir=" . escapeshellarg(dirname($fontFile)) . 
-                   ":force_style='Alignment=" . intval($alignment) .
-                   ",FontName=The Bold Font" .
-                   ",FontSize=" . intval($fontSize) .
-                   ",MarginL=" . intval($marginLeft) .
-                   ",MarginR=" . intval($marginRight) . "'",
+                ":force_style='Alignment=" . intval($alignment) .
+                ",FontName=The Bold Font" .
+                ",FontSize=" . intval($fontSize) .
+                ",MarginL=" . intval($marginLeft) .
+                ",MarginR=" . intval($marginRight) . "'",
             '-c:a', 'copy',  // Copy audio without re-encoding
             $outputVideoPath
         ];
-    
+
         return self::runProcess($command, $outputVideoPath);
     }
-     
+
     /**
      * Get the duration of an MP3 file in seconds, rounded down to the nearest whole second.
      *
@@ -380,4 +380,24 @@ class Media
 
         return self::runProcess($command, $outputSubtitlePath);
     }
+
+    public function addLogoToVideo($inputVideoPath, $logoImagePath, $outputDir)
+    {
+        // Generate a unique filename for the output video
+        $outputVideoPath = $outputDir . '/' . uniqid('logo_video_', true) . '.mp4';
+    
+        // FFmpeg command to overlay the resized logo on the video
+        $command = [
+            'ffmpeg',
+            '-i', $inputVideoPath,          // Input video
+            '-i', $logoImagePath,           // Logo image
+            '-filter_complex', "[1:v]scale=w=400:h=-1[logo];[0:v][logo]overlay=(W-w)/2:10", // Resize logo and overlay filter
+            '-codec:a', 'copy',             // Copy the audio without re-encoding
+            $outputVideoPath
+        ];
+    
+        // Execute the FFmpeg process and return the result
+        return self::runProcess($command, $outputVideoPath);
+    }
+    
 }

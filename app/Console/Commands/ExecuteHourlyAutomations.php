@@ -26,8 +26,12 @@ class ExecuteHourlyAutomations extends Command
      */
     public function handle()
     {
-        Automation::where('schedule', 'hourly')->get()->each(function ($automation) {
-            dd($automation->execute());
+        $console = $this;
+
+        Automation::where('schedule', 'hourly')->get()->each(function ($automation) use ($console) {
+            $automation->execute();
+
+            $console->info("Executed automation: {$automation->name}");
         });
     }
 }
