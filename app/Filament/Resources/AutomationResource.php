@@ -37,6 +37,7 @@ class AutomationResource extends Resource
                 Forms\Components\Select::make('amount')
                     ->required()
                     ->options([
+                        '1' => '1',
                         '5' => '5',
                         '10' => '10',
                         '15' => '15',

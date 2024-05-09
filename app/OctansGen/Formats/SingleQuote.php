@@ -68,7 +68,7 @@ class SingleQuote
         // Crop it to fit a certain size wxh
         $croppedImage = $this->mediaGenerator->scaleAndCropImage($bgImage, storage_path('app/public'));
 
-        $overlayedImage = $this->mediaGenerator->applyBlackOverlayWithOpacity($croppedImage, 0.4, storage_path('app/public'));
+        $overlayedImage = $this->mediaGenerator->applyBlackOverlayWithOpacity($croppedImage, 0.7, storage_path('app/public'));
 
         $noisedImage = $this->mediaGenerator->addNoiseToImage($overlayedImage, storage_path('app/public'));
 

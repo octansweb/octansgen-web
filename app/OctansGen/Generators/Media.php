@@ -214,7 +214,7 @@ class Media
     }
 
 
-    public function createVideoFromImages($imagePaths, $outputDir)
+    public function createVideoFromImages($imagePaths, $duration, $outputDir)
     {
         // Generate a unique filename
         $outputVideoPath = $outputDir . '/' . uniqid('video_', true) . '.mp4';
@@ -231,7 +231,7 @@ class Media
             $command[] = '-loop';
             $command[] = '1';
             $command[] = '-t';
-            $command[] = '3'; // duration for each image
+            $command[] = "{$duration}"; // duration for each image
             $command[] = '-i';
             $command[] = $path;
 
@@ -291,5 +291,93 @@ class Media
         ];
 
         return self::runProcess($command, $outputVideoPath);
+    }
+
+
+    /**
+     * Burns subtitles into a video file using an external subtitles file.
+     *
+     * @param string $inputVideoPath The path to the input video file.
+     * @param string $subtitlesPath The path to the subtitles file.
+     * @param string $outputDir The directory to save the output video.
+     * @return string|void Returns the path of the video with subtitles or prints an error.
+     */
+    public function burnSubtitlesInVideo($inputVideoPath, $subtitlesPath, $outputDir, $alignment = 10, $fontSize = 16, $marginLeft = 20, $marginRight = 20)
+    {
+        // Generate a unique filename for the output video
+        $outputVideoPath = $outputDir . '/' . uniqid('subtitled_video_', true) . '.mp4';
+    
+        // Construct the FFmpeg command to burn subtitles into the video
+        $command = [
+            'ffmpeg',
+            '-i', $inputVideoPath,
+            '-vf', "subtitles=" . escapeshellarg($subtitlesPath) .
+                //    ":fontsdir=" . escapeshellarg(dirname($fontFile)) . 
+                   ":force_style='Alignment=" . intval($alignment) .
+                   ",FontName=The Bold Font" .
+                   ",FontSize=" . intval($fontSize) .
+                   ",MarginL=" . intval($marginLeft) .
+                   ",MarginR=" . intval($marginRight) . "'",
+            '-c:a', 'copy',  // Copy audio without re-encoding
+            $outputVideoPath
+        ];
+    
+        return self::runProcess($command, $outputVideoPath);
+    }
+     
+    /**
+     * Get the duration of an MP3 file in seconds, rounded down to the nearest whole second.
+     *
+     * @param string $audioFilePath The path to the MP3 file.
+     * @return int Returns the duration in seconds.
+     */
+    public function getAudioDuration($audioFilePath)
+    {
+        // Construct the command using ffprobe to get the duration
+        $command = [
+            'ffprobe',
+            '-v', 'error',
+            '-show_entries', 'format=duration',
+            '-of', 'default=noprint_wrappers=1:nokey=1',
+            $audioFilePath
+        ];
+
+        $process = new Process($command);
+        $process->setTimeout(60); // Set a reasonable timeout
+
+        try {
+            $process->mustRun();
+            $output = trim($process->getOutput());
+            // Round down the duration to the nearest whole number
+            return $output;
+        } catch (ProcessFailedException $exception) {
+            echo "An error occurred: " . $exception->getMessage();
+            return 0; // Return 0 or handle error appropriately
+        }
+    }
+
+
+    /**
+     * Converts subtitle files from one format to another using ffmpeg.
+     *
+     * @param string $inputSubtitlePath The path to the input subtitle file.
+     * @param string $outputDir The directory to save the converted subtitle file.
+     * @param string $inputFormat The format of the input subtitle file (e.g., 'srt').
+     * @param string $outputFormat The format of the output subtitle file (e.g., 'ass').
+     * @return string|void Returns the path of the converted subtitle file or prints an error.
+     */
+    public function convertSubtitlesToAssFormat($inputSubtitlePath, $outputDir)
+    {
+        // Generate a unique filename for the output subtitle file
+        $outputSubtitlePath = $outputDir . '/' . uniqid('converted_', true) . '.ass';
+
+        // Construct the ffmpeg command to convert the subtitle format
+        $command = [
+            'ffmpeg',
+            '-i', $inputSubtitlePath,
+            $outputSubtitlePath
+        ];
+
+        return self::runProcess($command, $outputSubtitlePath);
     }
 }
