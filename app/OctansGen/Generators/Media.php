@@ -385,7 +385,7 @@ class Media
     {
         // Generate a unique filename for the output video
         $outputVideoPath = $outputDir . '/' . uniqid('logo_video_', true) . '.mp4';
-    
+
         // FFmpeg command to overlay the resized logo on the video
         $command = [
             'ffmpeg',
@@ -395,9 +395,44 @@ class Media
             '-codec:a', 'copy',             // Copy the audio without re-encoding
             $outputVideoPath
         ];
-    
+
         // Execute the FFmpeg process and return the result
         return self::runProcess($command, $outputVideoPath);
     }
-    
+
+    /**
+     * Add background music to a video without completely muting the original audio.
+     *
+     * @param string $inputVideoPath Path to the input video file.
+     * @param string $backgroundAudioPath Path to the background audio file.
+     * @param string $outputDir Directory to save the output video.
+     * @param float $backgroundVolume Volume adjustment for the background audio (0.0 to 1.0).
+     * @return string|void Returns the path of the output video or prints an error.
+     */
+    public function addBackgroundMusic($inputVideoPath, $backgroundAudioPath, $outputDir, $backgroundVolume = 0.2)
+    {
+        // Generate a unique filename for the output video
+        $outputVideoPath = $outputDir . '/' . uniqid('bgm_video_', true) . '.mp4';
+
+        // Calculate the volume for the original audio to blend with the background audio
+        $originalVolume = 1 - $backgroundVolume;
+
+        // Construct the FFmpeg command to merge and adjust audio
+        $command = [
+            'ffmpeg',
+            '-i', $inputVideoPath,           // Input video file
+            '-i', $backgroundAudioPath,      // Background audio file
+            '-filter_complex',
+            "amix=inputs=2:duration=shortest:weights={$originalVolume} {$backgroundVolume}[a]", // Mix audio streams with defined weights
+            '-map', '0:v',                   // Map the video from the first input
+            '-map', '[a]',                   // Map the processed audio
+            '-c:v', 'copy',                  // Copy the video codec
+            '-c:a', 'aac',                   // Use AAC for audio codec
+            '-strict', 'experimental',       // Allow experimental codecs if necessary
+            '-shortest',                     // End output when the shortest input ends
+            $outputVideoPath
+        ];
+
+        return self::runProcess($command, $outputVideoPath);
+    }
 }

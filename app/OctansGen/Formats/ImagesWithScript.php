@@ -85,6 +85,9 @@ class ImagesWithScript
 
         $finalVideo = $this->mediaGenerator->addLogoToVideo($finalVideo, $logoPath, storage_path('app/public'));
 
+        // Add a background music
+        $finalVideo = $this->mediaGenerator->addBackgroundMusic($finalVideo, app_path() . '/OctansGen/Assets/music.mp3', storage_path('app/public'));
+
         echo "Generated cropped video: $finalVideo\n";
 
         return $finalVideo;
