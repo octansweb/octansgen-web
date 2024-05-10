@@ -4,6 +4,7 @@
 namespace App\OctansGen\Formats;
 
 use App\Models\Brand;
+use App\Models\Automation;
 use App\Models\BrandFormat;
 use App\Models\FormatField;
 use App\OctansGen\Generators\Audio;
@@ -56,7 +57,7 @@ class ImagesWithScript
         $imagePrompt3 = $formatFieldData->{$imagePrompt3Field->id};
 
 
-        $script = $this->scriptGenerator->generate($prompt);
+        $script = $this->scriptGenerator->generate($prompt, Automation::find($options['automation_id']));
         $audioFile = $this->audioGenerator->generate($script);
         $subtitlesFile = $this->subtitlesGenerator->generate($audioFile);
         $audioFileDuration = $this->mediaGenerator->getAudioDuration($audioFile);
