@@ -13,6 +13,7 @@ use App\OctansGen\Generators\Media;
 use App\OctansGen\Generators\Script;
 use Illuminate\Support\Facades\Cache;
 use App\OctansGen\Generators\Subtitles;
+use App\OctansGen\Generators\ImagePrompt;
 use App\OctansGen\Generators\InstagramDescription;
 
 
@@ -20,6 +21,7 @@ class ImagesWithScript
 {
     protected $videoURL;
     protected $script;
+    protected $instagramDescription;
 
     protected $mediaGenerator;
     protected $scriptGenerator;
@@ -27,8 +29,9 @@ class ImagesWithScript
     protected $audioGenerator;
     protected $subtitlesGenerator;
     protected $instagramDescriptionGenerator;
+    protected $imagePromptGenerator;
 
-    public function __construct(Media $mediaGenerator, Script $scriptGenerator, Image $imageGenerator, Audio $audioGenerator, Subtitles $subtitlesGenerator, InstagramDescription $instagramDescriptionGenerator)
+    public function __construct(Media $mediaGenerator, Script $scriptGenerator, Image $imageGenerator, Audio $audioGenerator, Subtitles $subtitlesGenerator, InstagramDescription $instagramDescriptionGenerator, ImagePrompt $imagePromptGenerator)
     {
         $this->mediaGenerator = $mediaGenerator;
         $this->scriptGenerator = $scriptGenerator;
@@ -36,6 +39,7 @@ class ImagesWithScript
         $this->audioGenerator = $audioGenerator;
         $this->subtitlesGenerator = $subtitlesGenerator;
         $this->instagramDescriptionGenerator = $instagramDescriptionGenerator;
+        $this->imagePromptGenerator = $imagePromptGenerator;
     }
 
     public function generate($options = [])
@@ -49,24 +53,38 @@ class ImagesWithScript
 
         // Write now quote prompt exists in this format field:
         $scriptPromptField = FormatField::whereFormatId($options['format_id'])->whereName('Script Prompt')->first();
-        $imagePrompt1Field = FormatField::whereFormatId($options['format_id'])->whereName('Image Prompt 1')->first();
-        $imagePrompt2Field = FormatField::whereFormatId($options['format_id'])->whereName('Image Prompt 2')->first();
-        $imagePrompt3Field = FormatField::whereFormatId($options['format_id'])->whereName('Image Prompt 3')->first();
+        // $imagePrompt1Field = FormatField::whereFormatId($options['format_id'])->whereName('Image Prompt 1')->first();
+        // $imagePrompt2Field = FormatField::whereFormatId($options['format_id'])->whereName('Image Prompt 2')->first();
+        // $imagePrompt3Field = FormatField::whereFormatId($options['format_id'])->whereName('Image Prompt 3')->first();
 
         // $formatFields = FormatField::whereFormatId($options['format_id'])->get();
         $formatFieldData = json_decode($brandFormat->fields);
         $prompt = $formatFieldData->{$scriptPromptField->id};
 
 
-        $imagePrompt1 = $formatFieldData->{$imagePrompt1Field->id};
-        $imagePrompt2 = $formatFieldData->{$imagePrompt2Field->id};
-        $imagePrompt3 = $formatFieldData->{$imagePrompt3Field->id};
+        // $imagePrompt1 = $formatFieldData->{$imagePrompt1Field->id};
+        // $imagePrompt2 = $formatFieldData->{$imagePrompt2Field->id};
+        // $imagePrompt3 = $formatFieldData->{$imagePrompt3Field->id};
+
 
 
         $script = $this->scriptGenerator->generate($prompt, Automation::find($options['automation_id']));
         $this->script = $script;
 
-        $this->generateInstagramDescription($script, $brand);
+
+
+        $length = strlen($script);
+        $partLength = ceil($length / 3);
+
+        $partialScript1 = substr($script, 0, $partLength);
+        $partialScript2 = substr($script, $partLength, $partLength);
+        $partialScript3 = substr($script, 2 * $partLength);
+
+        $imagePrompt1 = $this->imagePromptGenerator->generate($partialScript1, $script);
+        $imagePrompt2 = $this->imagePromptGenerator->generate($partialScript2, $script);
+        $imagePrompt3 = $this->imagePromptGenerator->generate($partialScript3, $script);
+
+        $this->instagramDescription = $this->generateInstagramDescription($script, $brand);
 
         $audioFile = $this->audioGenerator->generate($script);
         $subtitlesFile = $this->subtitlesGenerator->generate($audioFile);
@@ -146,5 +164,10 @@ class ImagesWithScript
     public function getScript()
     {
         return $this->script;
+    }
+
+    public function getInstagramDescription()
+    {
+        return $this->instagramDescription;
     }
 }

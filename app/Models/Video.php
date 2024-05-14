@@ -22,6 +22,8 @@ class Video extends Model
         'file_path',
         'metadata',
         'brand_format_id',
+        'instagram_description',
+        'script',
     ];
 
     /**

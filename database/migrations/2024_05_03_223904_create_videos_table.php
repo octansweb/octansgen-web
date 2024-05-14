@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('format_id');
             $table->foreignId('user_id');
             $table->string('file_path');
-            $table->text('instagram_post_description')->nullable();
-            $table->text('youtube_description')->nullable();
+            $table->text('instagram_description')->nullable();
+            $table->text('script')->nullable();
             $table->timestamps();
         });
     }

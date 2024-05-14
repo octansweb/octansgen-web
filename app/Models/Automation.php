@@ -50,7 +50,7 @@ class Automation extends Model
 
             if ($generated) {
                 // Assuming $generated is a full path, convert it to a relative path from public path
-                $relativePath = str_replace(storage_path('app/public') . '/', '', $generated);
+                $relativePath = str_replace(storage_path('app/public') . '/', '', $generated->getVideoURL());
 
                 // Use asset() to create the public URL
                 $publicUrl = asset('storage/' . $relativePath);
@@ -60,6 +60,8 @@ class Automation extends Model
                     'format_id' => $this->format_id,
                     'user_id' => $this->user_id,
                     'file_path' => $publicUrl,
+                    'instagram_description' => $generated->getInstagramDescription(),
+                    'script' => $generated->getScript(),
                 ]);
 
                 $files[] = $publicUrl;

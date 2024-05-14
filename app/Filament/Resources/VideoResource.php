@@ -10,6 +10,8 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Textarea;
+use Filament\Infolists\Components\Grid;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\VideoResource\Pages;
@@ -83,6 +85,7 @@ class VideoResource extends Resource
             ]);
     }
 
+
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
@@ -91,14 +94,31 @@ class VideoResource extends Resource
                     ->label('Brand'),
                 TextEntry::make('format.name')
                     ->label('Format'),
-                TextEntry::make('file_path')
-                    ->label('File Path')
-                    ->url(fn ($record) => url($record->file_path))
-                    ->openUrlInNewTab()
-                    ->tooltip('Click to open the file')
-                    ->formatStateUsing(fn ($state) => Str::limit($state, 30)),
+
+                Grid::make()->schema([
+                    TextEntry::make('file_path')
+                        ->label('File Path')
+                        ->url(fn ($record) => url($record->file_path))
+                        ->openUrlInNewTab()
+                        ->tooltip('Click to open the file')
+                        ->formatStateUsing(fn ($state) => Str::limit($state, 30)),
+                ]),
+
+                Grid::make()->schema([
+                    TextEntry::make('script')
+                        ->label('Voiceover script')
+                        ->copyable()
+                        ->columnSpan('full'),
+                ]),
+                Grid::make()->schema([
+                    TextEntry::make('instagram_description')
+                        ->label('Instagram Post Description')
+                        ->copyable()
+                        ->columnSpan('full'),
+                ]),
             ]);
     }
+
 
     public static function getRelations(): array
     {
