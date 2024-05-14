@@ -9,7 +9,7 @@ class InstagramDescription
     public function generate($script)
     {
         $messages = [
-            ['role' => 'system', 'content' => "You are a function that takes in a voiceover script and outputs a unique Instagram description less than 2200 characters. You are to only output the Instagram description and no other supporting text."],
+            ['role' => 'system', 'content' => "You receive a voiceover script and generate a unique Instagram description under 2200 characters. Only provide the Instagram description, including up to five of the most relevant and viral hashtags related to the script."],
             ['role' => 'user', 'content' => $script],
         ];
 
