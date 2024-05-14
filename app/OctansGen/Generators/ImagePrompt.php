@@ -12,7 +12,7 @@ class ImagePrompt
             $messages = [
                 [
                     'role' => 'system',
-                    'content' => 'You are an AI specialized in generating detailed image prompts for captivating visual scenes. You will be a given a partial script (which is the voiceover part of the video for which the image is need and the full script, so you can understand the context of the video. First imagine a very detailed and very attention capturing scene. Then, based on it create a prompt for visually captivating scenes that can be used as b-roll in short videos.'
+                    'content' => 'You are an AI specialized in generating detailed image prompts for captivating visual scenes. You will be a given a partial script (which is the voiceover part of the video for which the image is need and the full script, so you can understand the context of the video. First imagine a very detailed and very attention capturing scene. Then, based on it create a prompt for visually captivating scenes that can be used as b-roll in short videos. Keep the word count to 100 to 110.'
                 ],
 
                 [

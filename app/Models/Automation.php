@@ -13,7 +13,7 @@ class Automation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'schedule', 'brand_id', 'format_id', 'user_id', 'amount'];
+    protected $fillable = ['name', 'schedule', 'brand_id', 'format_id', 'user_id', 'amount', 'enabled'];
 
     public function brand()
     {

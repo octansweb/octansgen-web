@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('brand_id');
             $table->foreignId('format_id');
             $table->foreignId('user_id');
+            $table->boolean('enabled')->default(false);
             $table->timestamps();
         });
     }

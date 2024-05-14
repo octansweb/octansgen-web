@@ -31,7 +31,7 @@ class Script
 
         // Build messages array with past interactions
         $messages = [
-            ['role' => 'system', 'content' => "You are a function that takes in a specific prompt and outputs an instagram reel video script no more than 125 words. You are to only include the words and no visual directives, headings or anything like."]
+            ['role' => 'system', 'content' => "You are a function that takes in a specific prompt and outputs an instagram reel video script no more than 125 words (THIS IS IMPORTANT). You are to only include the words and no visual directives, headings or anything like."]
         ];
 
         foreach ($lastInteractions as $interaction) {

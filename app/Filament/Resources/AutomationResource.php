@@ -2,16 +2,15 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Automation;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AutomationResource\Pages;
 use App\Filament\Resources\AutomationResource\RelationManagers;
-use App\Models\Automation;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AutomationResource extends Resource
 {
@@ -51,6 +50,9 @@ class AutomationResource extends Resource
                 Forms\Components\Select::make('format_id')
                     ->required()
                     ->relationship('format', 'name'),
+
+                Forms\Components\Toggle::make('enabled'),
+
             ]);
     }
 
@@ -58,10 +60,13 @@ class AutomationResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('schedule')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('amount')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('brand.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('format.name')
@@ -74,6 +79,7 @@ class AutomationResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\ToggleColumn::make('enabled'),
             ])
             ->filters([
                 //
