@@ -13,23 +13,29 @@ use App\OctansGen\Generators\Media;
 use App\OctansGen\Generators\Script;
 use Illuminate\Support\Facades\Cache;
 use App\OctansGen\Generators\Subtitles;
+use App\OctansGen\Generators\InstagramDescription;
 
 
 class ImagesWithScript
 {
+    protected $videoURL;
+    protected $script;
+
     protected $mediaGenerator;
     protected $scriptGenerator;
     protected $imageGenerator;
     protected $audioGenerator;
     protected $subtitlesGenerator;
+    protected $instagramDescriptionGenerator;
 
-    public function __construct(Media $mediaGenerator, Script $scriptGenerator, Image $imageGenerator, Audio $audioGenerator, Subtitles $subtitlesGenerator)
+    public function __construct(Media $mediaGenerator, Script $scriptGenerator, Image $imageGenerator, Audio $audioGenerator, Subtitles $subtitlesGenerator, InstagramDescription $instagramDescriptionGenerator)
     {
         $this->mediaGenerator = $mediaGenerator;
         $this->scriptGenerator = $scriptGenerator;
         $this->imageGenerator = $imageGenerator;
         $this->audioGenerator = $audioGenerator;
         $this->subtitlesGenerator = $subtitlesGenerator;
+        $this->instagramDescriptionGenerator = $instagramDescriptionGenerator;
     }
 
     public function generate($options = [])
@@ -58,6 +64,10 @@ class ImagesWithScript
 
 
         $script = $this->scriptGenerator->generate($prompt, Automation::find($options['automation_id']));
+        $this->script = $script;
+
+        $this->generateInstagramDescription($script, $brand);
+
         $audioFile = $this->audioGenerator->generate($script);
         $subtitlesFile = $this->subtitlesGenerator->generate($audioFile);
         $audioFileDuration = $this->mediaGenerator->getAudioDuration($audioFile);
@@ -118,6 +128,23 @@ class ImagesWithScript
 
         echo "Generated cropped video: $finalVideo\n";
 
-        return $finalVideo;
+        $this->videoURL = $finalVideo;
+
+        return $this;
+    }
+
+    protected function generateInstagramDescription($script, $brand)
+    {
+        return $this->instagramDescriptionGenerator->generate($script, $brand);
+    }
+
+    public function getVideoURL()
+    {
+        return $this->videoURL;
+    }
+
+    public function getScript()
+    {
+        return $this->script;
     }
 }
