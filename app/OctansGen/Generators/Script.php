@@ -31,7 +31,7 @@ class Script
 
         // Build messages array with past interactions
         $messages = [
-            ['role' => 'system', 'content' => "You are a function that takes in a specific prompt and outputs an instagram reel video script no more than 125 words (THIS IS IMPORTANT). You are to only include the words and no visual directives, headings or anything like."]
+            ['role' => 'system', 'content' => "You are a function that takes in a specific prompt and outputs an instagram reel voiceover script no more than 125 words max. You are to only include the words and no visual directives, headings or anything like. After producing a result, please ensure that it is no more than 175 tokens."]
         ];
 
         foreach ($lastInteractions as $interaction) {
@@ -41,7 +41,9 @@ class Script
         }
 
         // Add the current prompt
-        $messages[] = ['role' => 'user', 'content' => $prompt];
+        $messages[] = ['role' => 'user', 'content' => $prompt . "\nPlease understand and make sure to make the script no longer than 125 words and responses to the same prompt must yield unique results."];
+
+        // echo json_encode($messages);
 
         // Request to OpenAI API
         $result = OpenAI::chat()->create([
