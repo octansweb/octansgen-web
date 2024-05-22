@@ -265,61 +265,63 @@ class Media
     }
 
 
-    public function createVideoFromVideos($videoPaths, $durations, $outputDir, $grayscale = false)
+    public function createVideoFromVideos(array $videoPaths, array $durations, string $outputDir, bool $grayscale = false)
     {
-        // Generate a unique filename
-        $outputVideoPath = $outputDir . '/' . uniqid('video_', true) . '.mp4';
-
-        // Base part of the command
-        $command = [
-            'ffmpeg'
-        ];
-
-        // Dynamic generation of input and filter settings based on videos
-        $filterParts = [];
-        foreach ($videoPaths as $index => $path) {
-            $command[] = '-i';
-            $command[] = $path;
+        // Temp files for processed videos
+        $processedVideos = [];
+        $uniqueSuffix = uniqid(); // Generate a unique suffix for temp files
+    
+        try {
+            foreach ($videoPaths as $index => $videoPath) {
+                $duration = $durations[$index];
+                $processedPath = $outputDir . '/processed_' . basename($videoPath, ".mp4") . "_{$uniqueSuffix}.mp4";
+                $vfFilters = "scale=1080:1920,setsar=1:1";
+                if ($grayscale) {
+                    $vfFilters .= ",format=gray";
+                }
+                $command = "ffmpeg -i '{$videoPath}' -t {$duration} -r 30 -vf '{$vfFilters}' -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k '{$processedPath}'";
+                $output = [];
+                $returnVar = 0;
+                exec($command, $output, $returnVar);
+                if ($returnVar !== 0) {
+                    throw new \Exception("Failed to process video: {$videoPath}");
+                }
+                $processedVideos[] = $processedPath;
+            }
+    
+            // Create a list file for concatenation
+            $concatFileList = $outputDir . '/concat_list_' . $uniqueSuffix . '.txt';
+            $concatContent = implode("\n", array_map(fn($path) => "file '{$path}'", $processedVideos)) . "\n";
+            file_put_contents($concatFileList, $concatContent);
+    
+            // Generate a unique name for the output video
+            $outputVideo = $outputDir . '/concatenated_video_' . $uniqueSuffix . '.mp4';
+            $command = "ffmpeg -f concat -safe 0 -i '{$concatFileList}' -vf 'scale=1080:1920,setsar=1:1' -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k '{$outputVideo}'";
+            $output = [];
+            $returnVar = 0;
+            exec($command, $output, $returnVar);
+            if ($returnVar !== 0) {
+                throw new \Exception("Failed to concatenate videos");
+            }
+    
+            // Cleanup temporary files
+            @unlink($concatFileList);
+            foreach ($processedVideos as $video) {
+                @unlink($video);
+            }
+    
+            return $outputVideo;
+        } catch (\Exception $e) {
+            // Cleanup in case of error
+            @unlink($concatFileList);
+            foreach ($processedVideos as $video) {
+                @unlink($video);
+            }
+            throw $e;
         }
-
-        foreach ($durations as $index => $duration) {
-            $filter = sprintf(
-                "[%d:v]scale='if(gt(a,9/16),1080,-1)':'if(gt(a,9/16),-1,1920)',pad=1080:1920:(1080-iw)/2:(1920-ih)/2,trim=duration=%s,setpts=PTS-STARTPTS[v%d]",
-                $index,
-                $duration,
-                $index
-            );
-            $filterParts[] = $filter;
-        }
-
-        // Concatenation part of the command
-        $concatInput = implode('', array_map(function ($index) {
-            return "[v$index]";
-        }, range(0, count($videoPaths) - 1)));
-
-        // Add grayscale filter if the option is set
-        if ($grayscale) {
-            $filterComplex = implode(";", $filterParts) . ';' . $concatInput . 'concat=n=' . count($videoPaths) . ':v=1:a=0,format=gray[v]';
-        } else {
-            $filterComplex = implode(";", $filterParts) . ';' . $concatInput . 'concat=n=' . count($videoPaths) . ':v=1:a=0[v]';
-        }
-
-        $command[] = '-filter_complex';
-        $command[] = $filterComplex;
-
-        $command[] = '-map';
-        $command[] = '[v]';
-
-        $command[] = '-c:v';
-        $command[] = 'libx264';
-        $command[] = '-pix_fmt';
-        $command[] = 'yuv420p';
-        $command[] = '-movflags';
-        $command[] = '+faststart';
-        $command[] = $outputVideoPath;
-
-        return self::runProcess($command, $outputVideoPath);
     }
+
+
 
 
 
@@ -360,7 +362,7 @@ class Media
      * @param string $outputDir The directory to save the output video.
      * @return string|void Returns the path of the video with subtitles or prints an error.
      */
-    public function burnSubtitlesInVideo($inputVideoPath, $subtitlesPath, $outputDir, $alignment = 10, $fontSize = 16, $marginLeft = 20, $marginRight = 20)
+    public function burnSubtitlesInVideo($inputVideoPath, $subtitlesPath, $outputDir, $alignment = 10, $fontSize = 16, $marginLeft = 20, $marginRight = 20, $fontName = 'The Bold Font')
     {
         // Generate a unique filename for the output video
         $outputVideoPath = $outputDir . '/' . uniqid('subtitled_video_', true) . '.mp4';
@@ -372,7 +374,7 @@ class Media
             '-vf', "subtitles=" . escapeshellarg($subtitlesPath) .
                 //    ":fontsdir=" . escapeshellarg(dirname($fontFile)) . 
                 ":force_style='Alignment=" . intval($alignment) .
-                ",FontName=The Bold Font" .
+                ",FontName=" . escapeshellarg($fontName) .
                 ",FontSize=" . intval($fontSize) .
                 ",MarginL=" . intval($marginLeft) .
                 ",MarginR=" . intval($marginRight) . "'",

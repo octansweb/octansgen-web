@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Models\Video;
-use App\OctansGen\Formats\ImagesWithScript;
 use App\OctansGen\Formats\SingleQuote;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\OctansGen\Formats\ImagesWithScript;
+use App\OctansGen\Formats\VideosWithScript;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Automation extends Model
@@ -42,6 +43,14 @@ class Automation extends Model
 
             if ($automationFormat->name === 'Images With Script') {
                 $generated = app(ImagesWithScript::class)->generate([
+                    'brand_id' => $this->brand_id,
+                    'format_id' => $this->format_id,
+                    'automation_id' => $this->id,
+                ]);
+            }
+
+            if ($automationFormat->name === 'Videos With Script') {
+                $generated = app(VideosWithScript::class)->generate([
                     'brand_id' => $this->brand_id,
                     'format_id' => $this->format_id,
                     'automation_id' => $this->id,
