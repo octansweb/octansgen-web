@@ -63,6 +63,10 @@ class VideosWithScript
 
 
         $script = $this->scriptGenerator->generate($prompt, Automation::find($options['automation_id']));
+
+        // Make the whole script uppercase:
+        $script = strtoupper($script);
+
         $this->script = $script;
 
 
@@ -100,7 +104,7 @@ class VideosWithScript
 
         // $resizedVideo = $this->mediaGenerator->resizeVideoAspectRatio($video, storage_path('app/public'));
         $finalVideo = $this->mediaGenerator->addAudioToVideo($video, $audioFile, storage_path('app/public'));
-        $finalVideo = $this->mediaGenerator->burnSubtitlesInVideo($finalVideo, $subtitlesFile, storage_path('app/public'));
+        $finalVideo = $this->mediaGenerator->burnSubtitlesInVideo($finalVideo, $subtitlesFile, storage_path('app/public'), 10, 16, 20, 20, 'Big Caslon');
 
 
         $finalVideo = $this->mediaGenerator->addLogoToVideo($finalVideo, $logoPath, storage_path('app/public'));
@@ -108,6 +112,10 @@ class VideosWithScript
         $automationId = $options['automation_id'];
         $musicList = [
             app_path('OctansGen/Assets/Music/Motivational/1.mp3'),
+            app_path('OctansGen/Assets/Music/Motivational/2.mp3'),
+            app_path('OctansGen/Assets/Music/Motivational/3.mp3'),
+            app_path('OctansGen/Assets/Music/Motivational/4.mp3'),
+            app_path('OctansGen/Assets/Music/Motivational/5.mp3'),
         ];
 
         // Retrieve the current music index from the cache, default to 0 if not set
@@ -116,7 +124,7 @@ class VideosWithScript
         echo "Current music index: $currentIndex\n";
 
         // Add a background music
-        $finalVideo = $this->mediaGenerator->addBackgroundMusic($finalVideo, $musicList[$currentIndex], storage_path('app/public'));
+        $finalVideo = $this->mediaGenerator->addBackgroundMusic($finalVideo, $musicList[$currentIndex], storage_path('app/public'), 0.05);
 
         // Increment and cycle the music index
         $nextIndex = ($currentIndex + 1) % count($musicList);

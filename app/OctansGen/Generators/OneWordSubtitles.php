@@ -41,7 +41,7 @@ class OneWordSubtitles
 
             // Check if current word should be part of the current entry
             if (!empty($currentEntry) && $currentEntry['startTime'] == $startTime) {
-                $currentEntry['text'] .= ' ' . $wordData['word'];
+                $currentEntry['text'] .= ' ' . strtoupper($wordData['word']);
                 $currentEntry['endTime'] = $endTime;
             } else {
                 // If there's a previous entry, add it to the srtContent
@@ -55,7 +55,7 @@ class OneWordSubtitles
                 $currentEntry = [
                     'startTime' => $startTime,
                     'endTime' => $endTime,
-                    'text' => $wordData['word']
+                    'text' => strtoupper($wordData['word'])
                 ];
             }
         }
@@ -82,6 +82,7 @@ class OneWordSubtitles
         // Log the file path
         return $fullPath;
     }
+
 
     protected function convertToSrtTime($seconds)
     {
