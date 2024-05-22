@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Cache;
 use App\OctansGen\Generators\Subtitles;
 use App\OctansGen\Generators\ImagePrompt;
 use App\OctansGen\Generators\InstagramDescription;
-
+use App\OctansGen\Generators\OneWordSubtitles;
 
 class ImagesWithScript
 {
@@ -23,24 +23,19 @@ class ImagesWithScript
     protected $script;
     protected $instagramDescription;
 
-    protected $mediaGenerator;
-    protected $scriptGenerator;
-    protected $imageGenerator;
-    protected $audioGenerator;
-    protected $subtitlesGenerator;
-    protected $instagramDescriptionGenerator;
-    protected $imagePromptGenerator;
-
-    public function __construct(Media $mediaGenerator, Script $scriptGenerator, Image $imageGenerator, Audio $audioGenerator, Subtitles $subtitlesGenerator, InstagramDescription $instagramDescriptionGenerator, ImagePrompt $imagePromptGenerator)
-    {
-        $this->mediaGenerator = $mediaGenerator;
-        $this->scriptGenerator = $scriptGenerator;
-        $this->imageGenerator = $imageGenerator;
-        $this->audioGenerator = $audioGenerator;
-        $this->subtitlesGenerator = $subtitlesGenerator;
-        $this->instagramDescriptionGenerator = $instagramDescriptionGenerator;
-        $this->imagePromptGenerator = $imagePromptGenerator;
+    public function __construct(
+        protected Media $mediaGenerator,
+        protected Script $scriptGenerator,
+        protected Image $imageGenerator,
+        protected Audio $audioGenerator,
+        protected Subtitles $subtitlesGenerator,
+        protected InstagramDescription $instagramDescriptionGenerator,
+        protected ImagePrompt $imagePromptGenerator,
+        protected OneWordSubtitles $oneWordSubtitlesGenerator
+    ) {
+        // Initialization is automatically done
     }
+
 
     public function generate($options = [])
     {
@@ -88,6 +83,8 @@ class ImagesWithScript
 
         $audioFile = $this->audioGenerator->generate($script);
         $subtitlesFile = $this->subtitlesGenerator->generate($audioFile);
+        // $subtitlesFile = $this->oneWordSubtitlesGenerator->generate($audioFile);
+
         $audioFileDuration = $this->mediaGenerator->getAudioDuration($audioFile);
 
         $eachImageDuration = $audioFileDuration / 3;

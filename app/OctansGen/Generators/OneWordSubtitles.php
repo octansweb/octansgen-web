@@ -21,8 +21,7 @@ class OneWordSubtitles
         $responseArray = $response->toArray();
         Log::debug($responseArray);
 
-        // Generate the SRT file from the response
-        $this->generateSrtFile($responseArray);
+        return $this->generateSrtFile($responseArray);
     }
 
     protected function generateSrtFile($response)
@@ -33,23 +32,45 @@ class OneWordSubtitles
         // Initializing the .srt file content
         $srtContent = '';
         $subtitleIndex = 1;
+        $currentEntry = [];
+        $previousEndTime = null;
 
         foreach ($words as $index => $wordData) {
-            // Preparing the start and end time for the subtitle
             $startTime = $this->convertToSrtTime($wordData['start']);
-            $endTime = $this->convertToSrtTime($wordData['end']);
+            $endTime = isset($words[$index + 1]) ? $this->convertToSrtTime($words[$index + 1]['start']) : $this->convertToSrtTime($wordData['end']);
 
-            // Creating a subtitle entry
-            $srtContent .= $subtitleIndex++ . "\n";
-            $srtContent .= $startTime . ' --> ' . $endTime . "\n";
-            $srtContent .= $wordData['word'] . "\n\n";
+            // Check if current word should be part of the current entry
+            if (!empty($currentEntry) && $currentEntry['startTime'] == $startTime) {
+                $currentEntry['text'] .= ' ' . $wordData['word'];
+                $currentEntry['endTime'] = $endTime;
+            } else {
+                // If there's a previous entry, add it to the srtContent
+                if (!empty($currentEntry)) {
+                    $srtContent .= $subtitleIndex++ . "\n";
+                    $srtContent .= $currentEntry['startTime'] . ' --> ' . $currentEntry['endTime'] . "\n";
+                    $srtContent .= $currentEntry['text'] . "\n\n";
+                }
+
+                // Start a new entry
+                $currentEntry = [
+                    'startTime' => $startTime,
+                    'endTime' => $endTime,
+                    'text' => $wordData['word']
+                ];
+            }
         }
 
+        // Add the last entry if exists
+        if (!empty($currentEntry)) {
+            $srtContent .= $subtitleIndex++ . "\n";
+            $srtContent .= $currentEntry['startTime'] . ' --> ' . $currentEntry['endTime'] . "\n";
+            $srtContent .= $currentEntry['text'] . "\n\n";
+        }
 
         // Define a unique file name
         $fileName = uniqid('subtitles_') . '.srt';
 
-        // Define the full path to save the image
+        // Define the full path to save the subtitle file
         $fullPath = storage_path('app/public/' . $fileName);
 
         file_put_contents($fullPath, $srtContent);
@@ -59,7 +80,7 @@ class OneWordSubtitles
         ]);
 
         // Log the file path
-        return storage_path('app/' . $fullPath);
+        return $fullPath;
     }
 
     protected function convertToSrtTime($seconds)

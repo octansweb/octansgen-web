@@ -265,6 +265,64 @@ class Media
     }
 
 
+    public function createVideoFromVideos($videoPaths, $durations, $outputDir, $grayscale = false)
+    {
+        // Generate a unique filename
+        $outputVideoPath = $outputDir . '/' . uniqid('video_', true) . '.mp4';
+
+        // Base part of the command
+        $command = [
+            'ffmpeg'
+        ];
+
+        // Dynamic generation of input and filter settings based on videos
+        $filterParts = [];
+        foreach ($videoPaths as $index => $path) {
+            $command[] = '-i';
+            $command[] = $path;
+        }
+
+        foreach ($durations as $index => $duration) {
+            $filter = sprintf(
+                "[%d:v]scale='if(gt(a,9/16),1080,-1)':'if(gt(a,9/16),-1,1920)',pad=1080:1920:(1080-iw)/2:(1920-ih)/2,trim=duration=%s,setpts=PTS-STARTPTS[v%d]",
+                $index,
+                $duration,
+                $index
+            );
+            $filterParts[] = $filter;
+        }
+
+        // Concatenation part of the command
+        $concatInput = implode('', array_map(function ($index) {
+            return "[v$index]";
+        }, range(0, count($videoPaths) - 1)));
+
+        // Add grayscale filter if the option is set
+        if ($grayscale) {
+            $filterComplex = implode(";", $filterParts) . ';' . $concatInput . 'concat=n=' . count($videoPaths) . ':v=1:a=0,format=gray[v]';
+        } else {
+            $filterComplex = implode(";", $filterParts) . ';' . $concatInput . 'concat=n=' . count($videoPaths) . ':v=1:a=0[v]';
+        }
+
+        $command[] = '-filter_complex';
+        $command[] = $filterComplex;
+
+        $command[] = '-map';
+        $command[] = '[v]';
+
+        $command[] = '-c:v';
+        $command[] = 'libx264';
+        $command[] = '-pix_fmt';
+        $command[] = 'yuv420p';
+        $command[] = '-movflags';
+        $command[] = '+faststart';
+        $command[] = $outputVideoPath;
+
+        return self::runProcess($command, $outputVideoPath);
+    }
+
+
+
     /**
      * Resize a video to a 1080x1920 aspect ratio.
      *
