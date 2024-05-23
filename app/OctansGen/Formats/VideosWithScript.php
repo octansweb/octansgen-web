@@ -78,7 +78,7 @@ class VideosWithScript
 
         $audioFileDuration = $this->mediaGenerator->getAudioDuration($audioFile);
 
-        $eachVideoDuration = $audioFileDuration / 7;
+
 
 
 
@@ -90,21 +90,27 @@ class VideosWithScript
             'app/OctansGen/Assets/Videos/Motivational/5.mp4',
             'app/OctansGen/Assets/Videos/Motivational/6.mp4',
             'app/OctansGen/Assets/Videos/Motivational/7.mp4',
+            'app/OctansGen/Assets/Videos/Motivational/8.mp4',
+            'app/OctansGen/Assets/Videos/Motivational/9.mp4',
+            'app/OctansGen/Assets/Videos/Motivational/10.mp4',
+            'app/OctansGen/Assets/Videos/Motivational/11.mp4',
+            'app/OctansGen/Assets/Videos/Motivational/12.mp4',
         ];
 
-        // Shuffle the array
-        $motivationalBRollClips = collect($motivationalBRollClips)->shuffle()->toArray();
-        // Create an array of $movieDuration elements
+        $clipsToUseCount = 7;
 
-        $video = $this->mediaGenerator->createVideoFromVideos($motivationalBRollClips, [
-            $eachVideoDuration, $eachVideoDuration, $eachVideoDuration, $eachVideoDuration, $eachVideoDuration, $eachVideoDuration, $eachVideoDuration
-        ], storage_path('app/public'), true);
+        // Shuffle the array and get the first 7 items
+        $selectedClips = collect($motivationalBRollClips)->shuffle()->take($clipsToUseCount)->all();
+
+        $eachVideoDuration = $audioFileDuration / $clipsToUseCount;
+
+        $video = $this->mediaGenerator->createVideoFromVideos($selectedClips, array_fill(0, 7, $eachVideoDuration), storage_path('app/public'), true);
 
         echo "The generated video: " . $video . "\n";
 
         // $resizedVideo = $this->mediaGenerator->resizeVideoAspectRatio($video, storage_path('app/public'));
         $finalVideo = $this->mediaGenerator->addAudioToVideo($video, $audioFile, storage_path('app/public'));
-        $finalVideo = $this->mediaGenerator->burnSubtitlesInVideo($finalVideo, $subtitlesFile, storage_path('app/public'), 10, 16, 20, 20, 'Big Caslon');
+        $finalVideo = $this->mediaGenerator->burnSubtitlesInVideo($finalVideo, $subtitlesFile, storage_path('app/public'), 10, 10, 20, 20, 'The Bold Font');
 
 
         $finalVideo = $this->mediaGenerator->addLogoToVideo($finalVideo, $logoPath, storage_path('app/public'));
