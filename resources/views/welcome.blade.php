@@ -2102,19 +2102,19 @@
   <section class="pb-20 dark:bg-dark">
     <div class="container px-4">
       <div class="-mx-4 flex flex-wrap items-center justify-center gap-8 xl:gap-11">
-        <a href="https://graygrids.com/">
+        <a href="javascript:void(0)">
           <img src="/images/brands/graygrids.svg" alt="graygrids" class="dark:hidden" />
           <img src="/images/brands/graygrids-white.svg" alt="graygrids" class="hidden dark:block" />
         </a>
-        <a href="https://lineicons.com/">
+        <a href="javascript:void(0)">
           <img src="/images/brands/lineicons.svg" alt="lineicons" class="dark:hidden" />
           <img src="/images/brands/lineicons-white.svg" alt="graygrids" class="hidden dark:block" />
         </a>
-        <a href="https://uideck.com/">
+        <a href="javascript:void(0)">
           <img src="/images/brands/uideck.svg" alt="uideck" class="dark:hidden" />
           <img src="/images/brands/uideck-white.svg" alt="graygrids" class="hidden dark:block" />
         </a>
-        <a href="https://ayroui.com/">
+        <a href="javascript:void(0)">
           <img src="/images/brands/ayroui.svg" alt="ayroui" class="dark:hidden" />
           <img src="/images/brands/ayroui-white.svg" alt="graygrids" class="hidden dark:block" />
         </a>
