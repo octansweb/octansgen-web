@@ -1,33 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon!</title>
-    <script src="//cdn.tailwindcss.com"></script>
-</head>
-
-<body style="background-color: #09090B;" class="flex items-center justify-center h-screen">
-    <div class="text-center p-8">
-        <h1 class="text-6xl font-bold text-amber-500 mb-4">Coming Soon!</h1>
-        <p class="text-amber-200 text-xl mb-6">We're brewing something exciting and can't wait to share it with you.</p>
-        <div class="animate-bounce">
-
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9 mx-auto text-amber-500">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-            </svg> -->
-
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto text-amber-500">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3m7.071-15.071l-2.12 2.12M7.05 16.95l-2.12 2.12M21 12h-3M6 12H3m15.071 5.071l-2.12-2.12M7.05 7.05L4.93 4.93M12 6a6 6 0 1 1 0 12 6 6 0 0 1 0-12z" />
-            </svg> -->
-        <!-- </div>
-        <p class="text-gray-400">Stay tuned and check back soon!</p>
-    </div>
-</body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
@@ -226,21 +196,20 @@
           <div class="hero-content wow fadeInUp mx-auto max-w-[780px] text-center" data-wow-delay=".2s">
             <h1
               class="mb-6 text-3xl font-bold leading-snug text-white sm:text-4xl sm:leading-snug lg:text-5xl lg:leading-[1.2]">
-              Open-Source Web Template for SaaS, Startup, Apps, and More
+              Revolutionize Your Social Media Content Creation
             </h1>
             <p class="mx-auto mb-9 max-w-[600px] text-base font-medium text-white sm:text-lg sm:leading-[1.44]">
-              Multidisciplinary Web Template Built with Your Favourite
-              Technology - HTML Bootstrap, Tailwind and React NextJS.
+                Meet OctansGen, the ultimate platform for automating short-form video production. Create captivating videos with intelligent automation, customizable templates, and seamless integration with your favorite tools.
             </p>
             <ul class="mb-10 flex flex-wrap items-center justify-center gap-5">
               <li>
-                <a href="https://links.tailgrids.com/play-download"
+                <a href="https://octansgen.com/app/login"
                   class="inline-flex items-center justify-center rounded-md bg-white px-7 py-[14px] text-center text-base font-medium text-dark shadow-1 transition duration-300 ease-in-out hover:bg-gray-2 hover:text-body-color">
-                  Download Now
+                  Try OctansGen Now
                 </a>
               </li>
               <li>
-                <a href="https://github.com/tailgrids/play-tailwind" target="_blank"
+                <a href="#" target="_blank"
                   class="flex items-center gap-4 rounded-md bg-white/[0.12] px-6 py-[14px] text-base font-medium text-white transition duration-300 ease-in-out hover:bg-white hover:text-dark">
                   <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -263,7 +232,7 @@
                 Built with latest technology
               </p>
               <div class="wow fadeInUp flex items-center justify-center gap-4 text-center" data-wow-delay=".3s">
-                <a href="https://github.com/uideck/play-bootstrap/"
+                <a href="#"
                   class="text-white/60 duration-300 ease-in-out hover:text-white" target="_blank">
                   <svg class="fill-current" width="41" height="32" viewBox="0 0 41 32" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -278,7 +247,7 @@
                   </svg>
                 </a>
 
-                <a href="https://github.com/TailGrids/play-tailwind/"
+                <a href="javascript:void(0)"
                   class="text-white/60 duration-300 ease-in-out hover:text-white" target="_blank">
                   <svg class="fill-current" width="41" height="26" viewBox="0 0 41 26" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -293,7 +262,7 @@
                   </svg>
                 </a>
 
-                <a href="https://github.com/NextJSTemplates/play-nextjs"
+                <a href="javascript:void(0)"
                   class="text-white/60 duration-300 ease-in-out hover:text-white" target="_blank">
                   <svg class="fill-current" width="41" height="36" viewBox="0 0 41 36" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -304,7 +273,7 @@
                   </svg>
                 </a>
 
-                <a href="https://github.com/TailGrids/play-astro/"
+                <a href="javascript:void(0)"
                   class="text-white/60 duration-300 ease-in-out hover:text-white" target="_blank">
                   <svg class="mt-0.5 fill-current" width="30" height="38" viewBox="0 0 30 38" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -322,7 +291,7 @@
                   </svg>
                 </a>
 
-                <a href="https://github.com/NextJSTemplates/play-nextjs"
+                <a href="javascript:void(0)"
                   class="text-white/60 duration-300 ease-in-out hover:text-white" target="_blank">
                   <svg class="fill-current" width="41" height="40" viewBox="0 0 41 40" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
