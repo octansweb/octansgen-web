@@ -42,6 +42,7 @@
   <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
   <link rel="stylesheet" href="/css/animate.css" />
   <link rel="stylesheet" href="/css/tailwind.css" />
+  
 
   <!-- ==== WOW JS ==== -->
   <script src="/js/wow.min.js"></script>
@@ -206,7 +207,7 @@
               <button 
                 href="signup.html"
                 disabled
-                class="disabled:opacity-50 disabled:cursor-not-allowed signUpBtn rounded-md bg-white bg-opacity-20 px-6 py-2 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark">
+                class="signUpBtn rounded-md bg-white bg-opacity-20 px-6 py-2 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark disabled:opacity-50 disabled:cursor-not-allowed">
                 Sign Up
               </button>
             </div>

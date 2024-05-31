@@ -400,6 +400,14 @@ Make sure disabled buttons don't get the pointer cursor.
   cursor: default;
 }
 
+/* Custom disabled styles */
+button:disabled {
+  background-color: rgba(255, 255, 255, 0.2); /* Adjust the color as needed */
+  color: rgba(255, 255, 255, 0.5); /* Adjust the color as needed */
+  cursor: not-allowed;
+  opacity: 0.5; /* General opacity adjustment for disabled buttons */
+}
+
 /*
 1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
 2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
