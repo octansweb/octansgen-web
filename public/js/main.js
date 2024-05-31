@@ -17,10 +17,10 @@
       // === logo change
       if (ud_header.classList.contains("sticky")) {
         document.querySelector(".header-logo").src =
-          "assets/images/logo/logo.png"
+          "/images/logo/logo.png"
       } else {
         document.querySelector(".header-logo").src =
-          "assets/images/logo/logo-dark.png"
+          "/images/logo/logo-dark.png"
       }
     }
 
@@ -29,7 +29,7 @@
         // === logo change
         if (ud_header.classList.contains("sticky")) {
           document.querySelector(".header-logo").src =
-            "assets/images/logo/logo-dark.png"
+            "/images/logo/logo-dark.png"
         } 
       }
     }
