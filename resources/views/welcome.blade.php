@@ -814,7 +814,7 @@
     <!-- ====== Features Section End -->
 
     <!-- ====== About Section Start -->
-    <section id="about" class="bg-gray-1 pb-8 pt-20 dark:bg-dark-2 lg:pb-[70px] lg:pt-[120px]">
+    {{-- <section id="about" class="bg-gray-1 pb-8 pt-20 dark:bg-dark-2 lg:pb-[70px] lg:pt-[120px]">
         <div class="container">
             <div class="wow fadeInUp" data-wow-delay=".2s">
                 <div class="-mx-4 flex flex-wrap items-center">
@@ -929,11 +929,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- ====== About Section End -->
 
     <!-- ====== CTA Section Start -->
-    <section class="relative z-10 overflow-hidden bg-primary py-20 lg:py-[115px]">
+    {{-- <section class="relative z-10 overflow-hidden bg-primary py-20 lg:py-[115px]">
         <div class="container mx-auto">
             <div class="relative overflow-hidden">
                 <div class="-mx-4 flex flex-wrap items-stretch">
@@ -981,11 +981,11 @@
                 </svg>
             </span>
         </div>
-    </section>
+    </section> --}}
     <!-- ====== CTA Section End -->
 
     <!-- ====== Pricing Section Start -->
-    <section id="pricing"
+    {{-- <section id="pricing"
         class="relative z-20 overflow-hidden bg-white pb-12 pt-20 dark:bg-dark lg:pb-[90px] lg:pt-[120px]">
         <div class="container mx-auto">
             <div class="-mx-4 flex flex-wrap">
@@ -1129,11 +1129,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- ====== Pricing Section End -->
 
     <!-- ====== Testimonial Section Start -->
-    <section id="testimonials" class="overflow-hidden bg-gray-1 py-20 dark:bg-dark-2 md:py-[120px]">
+    {{-- <section id="testimonials" class="overflow-hidden bg-gray-1 py-20 dark:bg-dark-2 md:py-[120px]">
         <div class="container mx-auto">
             <div class="-mx-4 flex flex-wrap justify-center">
                 <div class="w-full px-4">
@@ -1377,11 +1377,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- ====== Testimonial Section End -->
 
     <!-- ====== FAQ Section Start -->
-    <section class="relative z-20 overflow-hidden bg-white pb-8 pt-20 dark:bg-dark lg:pb-[50px] lg:pt-[120px]">
+    {{-- <section class="relative z-20 overflow-hidden bg-white pb-8 pt-20 dark:bg-dark lg:pb-[50px] lg:pt-[120px]">
         <div class="container mx-auto">
             <div class="-mx-4 flex flex-wrap">
                 <div class="w-full px-4">
@@ -1679,11 +1679,11 @@
                 </svg>
             </span>
         </div>
-    </section>
+    </section> --}}
     <!-- ====== FAQ Section End -->
 
     <!-- ====== Team Section Start -->
-    <section id="team" class="overflow-hidden bg-gray-1 pb-12 pt-20 dark:bg-dark-2 lg:pb-[90px] lg:pt-[120px]">
+    {{-- <section id="team" class="overflow-hidden bg-gray-1 pb-12 pt-20 dark:bg-dark-2 lg:pb-[90px] lg:pt-[120px]">
         <div class="container mx-auto">
             <div class="-mx-4 flex flex-wrap">
                 <div class="w-full px-4">
@@ -2191,7 +2191,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- ====== Team Section End -->
 
     <!-- ====== Blog Section Start -->
@@ -2312,7 +2312,7 @@
                             </span>
                             <h2
                                 class="max-w-[260px] text-[35px] font-semibold leading-[1.14] text-dark dark:text-white">
-                                Let's talk about your problem.
+                                Let's talk about your short form video needs.
                             </h2>
                         </div>
                         <div class="mb-12 flex flex-wrap justify-between lg:mb-0">
@@ -2346,10 +2346,10 @@
                                         How Can We Help?
                                     </h5>
                                     <p class="text-base text-body-color dark:text-dark-6">
-                                        info@yourdomain.com
+                                        info@octangen.com
                                     </p>
                                     <p class="mt-1 text-base text-body-color dark:text-dark-6">
-                                        contact@yourdomain.com
+                                        contact@octansgen.com
                                     </p>
                                 </div>
                             </div>
@@ -2429,7 +2429,7 @@
     <!-- ====== Brands Section End -->
 
     <!-- ====== Footer Section Start -->
-    <footer class="wow fadeInUp relative z-10 bg-[#090E34] pt-20 lg:pt-[100px]" data-wow-delay=".15s">
+    {{-- <footer class="wow fadeInUp relative z-10 bg-[#090E34] pt-20 lg:pt-[100px]" data-wow-delay=".15s">
         <div class="container">
             <div class="-mx-4 flex flex-wrap">
                 <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-4/12 xl:w-3/12">
@@ -2800,7 +2800,7 @@
                 </svg>
             </span>
         </div>
-    </footer>
+    </footer> --}}
     <!-- ====== Footer Section End -->
 
     <!-- ====== Back To Top Start -->
