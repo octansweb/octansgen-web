@@ -227,7 +227,7 @@
                 </a>
               </li> --}}
             </ul>
-            <div>
+            {{-- <div>
               <p class="mb-4 text-center text-base font-medium text-white">
                 Built with latest technology
               </p>
@@ -300,7 +300,7 @@
                   </svg>
                 </a>
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
 
