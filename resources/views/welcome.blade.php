@@ -208,7 +208,7 @@
                   Try OctansGen Now
                 </a>
               </li>
-              <li>
+              {{-- <li>
                 <a href="#" target="_blank"
                   class="flex items-center gap-4 rounded-md bg-white/[0.12] px-6 py-[14px] text-base font-medium text-white transition duration-300 ease-in-out hover:bg-white hover:text-dark">
                   <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -225,7 +225,7 @@
                   </svg>
                   Star on Github
                 </a>
-              </li>
+              </li> --}}
             </ul>
             <div>
               <p class="mb-4 text-center text-base font-medium text-white">
