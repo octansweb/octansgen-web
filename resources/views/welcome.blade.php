@@ -72,13 +72,13 @@
                     Contact
                   </a>
                 </li>
-                <li class="group relative">
+                {{-- <li class="group relative">
                   <a href="blog-grids.html"
                     class="ud-menu-scroll mx-8 flex py-2 text-base font-medium text-dark group-hover:text-primary dark:text-white lg:ml-7 lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-10">
                     Blog
                   </a>
-                </li>
-                <li class="submenu-item group relative">
+                </li> --}}
+                {{-- <li class="submenu-item group relative">
                   <a href="javascript:void(0)"
                     class="relative mx-8 flex items-center justify-between py-2 text-base font-medium text-dark group-hover:text-primary dark:text-white lg:ml-8 lg:mr-0 lg:inline-flex lg:py-6 lg:pl-0 lg:pr-4 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-10">
                     Pages
@@ -124,7 +124,7 @@
                       404 Page
                     </a>
                   </div>
-                </li>
+                </li> --}}
               </ul>
             </nav>
           </div>
@@ -1896,7 +1896,7 @@
   <!-- ====== Team Section End -->
 
   <!-- ====== Blog Section Start -->
-  <section class="bg-white pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]">
+  {{-- <section class="bg-white pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]">
     <div class="container mx-auto">
       <div class="-mx-4 flex flex-wrap justify-center">
         <div class="w-full px-4">
@@ -1995,7 +1995,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
   <!-- ====== Blog Section End -->
 
   <!-- ====== Contact Start ====== -->
@@ -2099,7 +2099,7 @@
   <!-- ====== Contact End ====== -->
 
   <!-- ====== Brands Section Start -->
-  <section class="pb-20 dark:bg-dark">
+  {{-- <section class="pb-20 dark:bg-dark">
     <div class="container px-4">
       <div class="-mx-4 flex flex-wrap items-center justify-center gap-8 xl:gap-11">
         <a href="javascript:void(0)">
@@ -2120,7 +2120,7 @@
         </a>
       </div>
     </div>
-  </section>
+  </section> --}}
   <!-- ====== Brands Section End -->
 
   <!-- ====== Footer Section Start -->
